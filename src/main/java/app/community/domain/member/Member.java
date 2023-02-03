@@ -2,6 +2,7 @@ package app.community.domain.member;
 
 import app.community.domain.post.Content;
 import app.community.global.enumerated.Role;
+import app.community.global.jpa.auditing.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
