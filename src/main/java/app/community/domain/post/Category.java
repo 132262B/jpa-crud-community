@@ -1,5 +1,6 @@
 package app.community.domain.post;
 
+import app.community.global.jpa.auditing.BaseTimeAndByEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Category {
+public class Category extends BaseTimeAndByEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
