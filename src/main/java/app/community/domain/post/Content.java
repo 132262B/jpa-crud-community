@@ -36,6 +36,7 @@ public class Content extends BaseTimeEntity {
     @ColumnDefault("0")
     private int views;
 
+    @ColumnDefault("'Y'")
     private String status;
 
 }

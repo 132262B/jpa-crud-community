@@ -4,6 +4,7 @@ import app.community.global.jpa.auditing.BaseTimeAndByEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class Category extends BaseTimeAndByEntity {
 
     private String name;
 
+    @ColumnDefault("'Y'")
     private String status;
 
     @OneToMany(mappedBy = "category")

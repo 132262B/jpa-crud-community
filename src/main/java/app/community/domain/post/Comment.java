@@ -5,6 +5,7 @@ import app.community.global.jpa.auditing.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -33,6 +34,7 @@ public class Comment extends BaseTimeEntity {
     @Column(length = 1000)
     private String commentContent;
 
+    @ColumnDefault("'Y'")
     private String status;
 
 }
