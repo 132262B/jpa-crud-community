@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,6 +17,8 @@ import java.util.List;
  */
 @Getter
 @Entity
+@Where(clause = "status = 'Y'")
+@DynamicInsert
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Content extends BaseTimeEntity {
 
@@ -30,12 +34,14 @@ public class Content extends BaseTimeEntity {
     @OneToMany(mappedBy = "content")
     private List<Comment> comment;
 
-    @Column(length = 2000)
+    @Column(length = 2000, nullable = false)
     private String content;
 
+    @Column(nullable = false)
     @ColumnDefault("0")
     private int views;
 
+    @Column(length = 1, nullable = false)
     @ColumnDefault("'Y'")
     private String status;
 

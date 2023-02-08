@@ -1,11 +1,13 @@
-package app.community.api.member.controller;
+package app.community.api.post.controller;
 
 
 import app.community.api.member.dto.request.CreateAccountRequest;
-import app.community.api.member.service.MemberService;
+import app.community.api.post.dto.request.CreateCategoryRequest;
+import app.community.api.post.service.CategoryService;
 import app.community.global.model.ApiResponse;
 import app.community.global.model.dto.DefaultResultResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,18 +15,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-@RequestMapping("/api/member")
-@RequiredArgsConstructor
+@RequestMapping("/api/category")
 @RestController
-public class MemberController {
+@RequiredArgsConstructor
+public class CategoryController {
 
-    private final MemberService memberService;
+    private final CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<DefaultResultResponse>> save(@Validated @RequestBody CreateAccountRequest request) {
-        return ResponseEntity.ok(new ApiResponse<>(memberService.save(request.getEmail(), request.getPassword(), request.getUsername())));
+    public ResponseEntity<ApiResponse<DefaultResultResponse>> save(@Validated @RequestBody CreateCategoryRequest request) {
+        return ResponseEntity.ok(new ApiResponse<>(categoryService.save(request.getName(), request.getParentId())));
     }
-
-
 }

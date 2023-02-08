@@ -21,8 +21,8 @@ import java.util.List;
  */
 @Getter
 @Entity
-@Where(clause = "status = 'Y'")
 @DynamicInsert
+@Where(clause = "status = 'Y'")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
 
@@ -31,22 +31,25 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_id")
     private Long id;
 
-    @Column(unique = true, length = 50)
+    @Column(unique = true, length = 50, nullable = false)
     private String email;
 
+    @Column(length = 64, nullable = false)
     private String password;
 
+    @Column(length = 30, nullable = false)
     private String username;
 
+    @Column(length = 5, nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
 
     @ColumnDefault("'Y'")
+    @Column(length = 1, nullable = false)
     private String status;
 
     @OneToMany(mappedBy = "content")
     private List<Content> contents = new ArrayList<>();
-
 
     public Member(String email, String password, String username) {
         this.email = email;

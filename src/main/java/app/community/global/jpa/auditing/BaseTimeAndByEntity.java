@@ -26,6 +26,7 @@ public class BaseTimeAndByEntity {
     private LocalDateTime updatedAt;
 
     @CreatedBy
+    @Column(updatable = false)
     private Long createdBy;
 
     @LastModifiedBy
