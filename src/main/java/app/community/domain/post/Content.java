@@ -1,9 +1,8 @@
 package app.community.domain.post;
 
+import app.community.domain.member.Member;
 import app.community.global.jpa.auditing.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.Where;
@@ -15,6 +14,8 @@ import java.util.List;
  * 게시물 엔티티
  * @author igor
  */
+@Builder
+@AllArgsConstructor
 @Getter
 @Entity
 @Where(clause = "status = 'Y'")
@@ -34,6 +35,9 @@ public class Content extends BaseTimeEntity {
     @OneToMany(mappedBy = "content")
     private List<Comment> comment;
 
+    @Column(length = 100, nullable = false)
+    private String title;
+
     @Column(length = 2000, nullable = false)
     private String content;
 
@@ -44,5 +48,9 @@ public class Content extends BaseTimeEntity {
     @Column(length = 1, nullable = false)
     @ColumnDefault("'Y'")
     private String status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
 }

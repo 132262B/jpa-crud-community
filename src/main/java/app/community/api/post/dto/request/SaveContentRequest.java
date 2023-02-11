@@ -1,21 +1,24 @@
 package app.community.api.post.dto.request;
 
-
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 
-@Getter
 @Setter
-public class CreateCategoryRequest {
+@Getter
+public class SaveContentRequest {
 
     @NotBlank
-    @Length(max = 30)
-    private String name;
+    @Length(max = 100)
+    private String title;
 
     @NotBlank
-    private Long parentId;
+    @Length(max = 2000)
+    private String content;
+
+    @NotBlank
+    private Long categoryId;
 
 }

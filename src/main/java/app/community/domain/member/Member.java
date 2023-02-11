@@ -3,9 +3,7 @@ package app.community.domain.member;
 import app.community.domain.post.Content;
 import app.community.global.enumerated.Role;
 import app.community.global.jpa.auditing.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.Where;
@@ -21,6 +19,8 @@ import java.util.List;
  */
 @Getter
 @Entity
+@Builder
+@AllArgsConstructor
 @DynamicInsert
 @Where(clause = "status = 'Y'")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -51,11 +51,6 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "content")
     private List<Content> contents = new ArrayList<>();
 
-    public Member(String email, String password, String username) {
-        this.email = email;
-        this.password = password;
-        this.username = username;
-        this.role = Role.USER;
-    }
+
 
 }

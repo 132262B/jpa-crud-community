@@ -2,9 +2,7 @@ package app.community.domain.post;
 
 import app.community.domain.member.Member;
 import app.community.global.jpa.auditing.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.Where;
@@ -15,6 +13,8 @@ import javax.persistence.*;
  * 댓글 엔티티
  * @author igor
  */
+@Builder
+@AllArgsConstructor
 @Getter
 @Entity
 @DynamicInsert

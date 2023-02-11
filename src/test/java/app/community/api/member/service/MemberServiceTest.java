@@ -1,5 +1,6 @@
 package app.community.api.member.service;
 
+import app.community.api.member.dto.request.CreateAccountRequest;
 import app.community.domain.member.Member;
 import app.community.global.model.dto.DefaultResultResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -14,24 +15,32 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
+@DisplayName("맴버 테스트")
 class MemberServiceTest {
 
     @Autowired
     private MemberService memberService;
 
-    private final String CREATE_ACCOUNT_MEMBER_EMAIL = "member1@gmail.com";
-    private final String CREATE_ACCOUNT_MEMBER_PASSWORD = "1234";
-    private final String CREATE_ACCOUNT_MEMBER_USERNAME = "회원1";
-
     @Value("#{message['message.member.success.account']}")
     private String MESSAGE_SUCCESS_ACCOUNT;
+
+    private CreateAccountRequest generateCreateAccountRequest() {
+        CreateAccountRequest createAccountRequest = new CreateAccountRequest();
+        createAccountRequest.setEmail("member1@gmail.com");
+        createAccountRequest.setPassword("1234");
+        createAccountRequest.setUsername("회원1");
+        return createAccountRequest;
+    }
 
     @Test
     @DisplayName("회원가입_테스트_성공")
     void createAccountSuccessTest() {
 
+        // given
+        CreateAccountRequest request = generateCreateAccountRequest();
+
         // when
-        DefaultResultResponse defaultResultResponse = memberService.save(CREATE_ACCOUNT_MEMBER_EMAIL, CREATE_ACCOUNT_MEMBER_PASSWORD, CREATE_ACCOUNT_MEMBER_USERNAME);
+        DefaultResultResponse defaultResultResponse = memberService.save(request);
 
         // then
         assertThat(defaultResultResponse.getMessage()).isEqualTo(MESSAGE_SUCCESS_ACCOUNT);
@@ -42,12 +51,13 @@ class MemberServiceTest {
     @DisplayName("회원가입_테스트_실패")
     void createAccountFailTest() {
 
-        // when
-        memberService.save(CREATE_ACCOUNT_MEMBER_EMAIL, CREATE_ACCOUNT_MEMBER_PASSWORD, CREATE_ACCOUNT_MEMBER_USERNAME);
+        // given
+        CreateAccountRequest request = generateCreateAccountRequest();
+        memberService.save(request);
 
-        // then
+        // when and then
         assertThrows(IllegalArgumentException.class, () -> {
-            memberService.save(CREATE_ACCOUNT_MEMBER_EMAIL, CREATE_ACCOUNT_MEMBER_PASSWORD, CREATE_ACCOUNT_MEMBER_USERNAME);
+            memberService.save(request);
         }, "에러가 발생하지 않음");
     }
 

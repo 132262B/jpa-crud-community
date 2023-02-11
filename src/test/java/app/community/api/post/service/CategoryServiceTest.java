@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
+@DisplayName("카테고리 테스트")
 class CategoryServiceTest {
 
     @Autowired
@@ -61,7 +62,7 @@ class CategoryServiceTest {
         CreateCategoryRequest categoryRequest = generateParentCategory();
 
         // when
-        DefaultResultResponse defaultResultResponse = categoryService.save(categoryRequest.getName(), categoryRequest.getParentId());
+        DefaultResultResponse defaultResultResponse = categoryService.save(categoryRequest);
 
         // then
         assertThat(defaultResultResponse.getMessage()).isEqualTo(MESSAGE_CREATE_CATEGORY_SUCCESS);
@@ -78,29 +79,29 @@ class CategoryServiceTest {
         CreateCategoryRequest childCategoryRequest = generateChildCategory(parentCategory.getId());
 
         // when
-        DefaultResultResponse defaultResultResponse = categoryService.save(childCategoryRequest.getName(), childCategoryRequest.getParentId());
+        DefaultResultResponse defaultResultResponse = categoryService.save(childCategoryRequest);
 
         // then
         assertThat(defaultResultResponse.getMessage()).isEqualTo(MESSAGE_CREATE_CATEGORY_SUCCESS);
         assertThat(defaultResultResponse.isSuccess()).isTrue();
     }
 
-    @DisplayName("parentId가 없는경우")
+    @DisplayName("parentId가_없는경우")
     @Test
-    void createChildCategorySuccessFailTest_1() {
+    void createChildCategoryFailTest_1() {
 
         // given
         CreateCategoryRequest childCategoryRequest = generateChildCategory(999L);
 
         // then and when
         assertThrows(NullPointerException.class, () -> {
-            categoryService.save(childCategoryRequest.getName(), childCategoryRequest.getParentId());
+            categoryService.save(childCategoryRequest);
         }, "에러가 발생하지 않음");
     }
 
-    @DisplayName("서브 카테고리에 서브카테고리를 등록할려고 하는경우")
+    @DisplayName("서브카테고리에_서브카테고리를_등록할려고_하는경우")
     @Test
-    void createChildCategorySuccessFailTest_2() {
+    void createChildCategoryFailTest_2() {
 
         // given
         Category parentCategory = categoryRepository.findAll().get(1);
@@ -109,7 +110,7 @@ class CategoryServiceTest {
 
         // then and when
         assertThrows(IllegalArgumentException.class, () -> {
-            categoryService.save(childCategoryRequest.getName(), childCategoryRequest.getParentId());
+            categoryService.save(childCategoryRequest);
         }, "에러가 발생하지 않음");
     }
 

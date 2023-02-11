@@ -1,8 +1,13 @@
 package app.community.api.member.service;
 
+import app.community.api.member.dto.MemberInfo;
+import app.community.api.member.dto.request.CreateAccountRequest;
+import app.community.api.member.dto.request.LoginRequest;
 import app.community.api.member.repository.MemberRepository;
 import app.community.domain.member.Member;
+import app.community.global.enumerated.Role;
 import app.community.global.model.dto.DefaultResultResponse;
+import app.community.global.utils.SessionUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,9 +23,17 @@ public class MemberService {
     @Value("#{message['message.member.success.account']}")
     private String MESSAGE_SUCCESS_ACCOUNT;
 
+    @Value("#{message['message.member.logout']}")
+    private String MESSAGE_LOGOUT;
+
     @Transactional
-    public DefaultResultResponse save(String email, String password, String username) {
-        Member member = new Member(email, password, username);
+    public DefaultResultResponse save(CreateAccountRequest request) {
+        Member member = Member.builder()
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .username(request.getUsername())
+                .role(Role.USER)
+                .build();
 
         try {
             memberRepository.save(member);
@@ -29,5 +42,19 @@ public class MemberService {
         }
 
         return new DefaultResultResponse(MESSAGE_SUCCESS_ACCOUNT, true);
+    }
+
+    public MemberInfo login(LoginRequest request) {
+        Member member = memberRepository.findByEmailAndPassword(request.getEmail(), request.getPassword());
+        MemberInfo memberInfo = new MemberInfo(member);
+
+        SessionUtil.setMemberInfoAttribute(memberInfo);
+
+        return memberInfo;
+    }
+
+    public DefaultResultResponse logout() {
+        SessionUtil.invalidate();
+        return new DefaultResultResponse(MESSAGE_LOGOUT, true);
     }
 }

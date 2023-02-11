@@ -2,33 +2,22 @@ package app.community.api.member.dto.request;
 
 import app.community.domain.member.Member;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
-public class CreateAccountRequest {
+@NoArgsConstructor
+public class LoginRequest {
 
     @NotBlank
     @Email(message = "이메일 양식을 지켜주세요.")
     private String email;
 
     @NotBlank
-    @Length(max = 30)
     private String password;
 
-    @NotBlank
-    @Length(max = 30)
-    private String username;
-
-    public Member toEntity() {
-        return Member.builder()
-                .email(this.email)
-                .password(this.password)
-                .username(this.username)
-                .build();
-    }
 }

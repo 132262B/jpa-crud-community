@@ -1,9 +1,7 @@
 package app.community.domain.post;
 
 import app.community.global.jpa.auditing.BaseTimeAndByEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.Where;
@@ -17,6 +15,8 @@ import java.util.List;
  *
  * @author igor
  */
+@Builder
+@AllArgsConstructor
 @Getter
 @Entity
 @DynamicInsert

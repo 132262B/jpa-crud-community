@@ -1,5 +1,6 @@
 package app.community.api.post.service;
 
+import app.community.api.post.dto.request.CreateCategoryRequest;
 import app.community.api.post.repository.CategoryRepository;
 import app.community.domain.post.Category;
 import app.community.global.model.dto.DefaultResultResponse;
@@ -21,15 +22,15 @@ public class CategoryService {
     private String MESSAGE_CREATE_CATEGORY_SUCCESS;
 
     @Transactional
-    public DefaultResultResponse save(String name, Long parentId) {
-        if (parentId != null) {
-            Category parentCategory = categoryRepository.findById(parentId)
-                    .orElseThrow(() -> new NullPointerException("해당 parentId는 존재하지 않습니다."));
+    public DefaultResultResponse save(CreateCategoryRequest request) {
+        if (request.getParentId() != null) {
+            Category parentCategory = categoryRepository.findById(request.getParentId())
+                    .orElseThrow(() -> new NullPointerException("해당 카테고리는 존재하지 않습니다."));
 
-            Category category = new Category(name, parentCategory);
+            Category category = new Category(request.getName(), parentCategory);
             categoryRepository.save(category);
         } else {
-            Category category = new Category(name);
+            Category category = new Category(request.getName());
             categoryRepository.save(category);
         }
 
