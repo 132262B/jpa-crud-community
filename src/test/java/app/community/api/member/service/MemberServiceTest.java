@@ -1,17 +1,13 @@
 package app.community.api.member.service;
 
 import app.community.api.member.dto.request.CreateAccountRequest;
-import app.community.domain.member.Member;
-import app.community.global.model.dto.DefaultResultResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional
@@ -20,9 +16,6 @@ class MemberServiceTest {
 
     @Autowired
     private MemberService memberService;
-
-    @Value("#{message['message.member.success.account']}")
-    private String MESSAGE_SUCCESS_ACCOUNT;
 
     private CreateAccountRequest generateCreateAccountRequest() {
         CreateAccountRequest createAccountRequest = new CreateAccountRequest();
@@ -33,31 +26,16 @@ class MemberServiceTest {
     }
 
     @Test
-    @DisplayName("회원가입_테스트_성공")
-    void createAccountSuccessTest() {
-
-        // given
-        CreateAccountRequest request = generateCreateAccountRequest();
-
-        // when
-        DefaultResultResponse defaultResultResponse = memberService.save(request);
-
-        // then
-        assertThat(defaultResultResponse.getMessage()).isEqualTo(MESSAGE_SUCCESS_ACCOUNT);
-        assertThat(defaultResultResponse.isSuccess()).isTrue();
-    }
-
-    @Test
-    @DisplayName("회원가입_테스트_실패")
+    @DisplayName("회원가입_가입_실패")
     void createAccountFailTest() {
 
         // given
         CreateAccountRequest request = generateCreateAccountRequest();
-        memberService.save(request);
+        memberService.create(request);
 
         // when and then
         assertThrows(IllegalArgumentException.class, () -> {
-            memberService.save(request);
+            memberService.create(request);
         }, "에러가 발생하지 않음");
     }
 

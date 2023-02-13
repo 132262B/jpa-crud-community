@@ -2,10 +2,9 @@ package app.community.api.post.controller;
 
 
 import app.community.api.post.dto.request.CreateCategoryRequest;
-import app.community.api.post.service.CategoryService;
-import app.community.global.model.ApiResponse;
-import app.community.global.model.dto.DefaultResultResponse;
+import app.community.api.post.facade.CategoryFacade;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,10 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CategoryController {
 
-    private final CategoryService categoryService;
+    private final CategoryFacade categoryFacade;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<DefaultResultResponse>> save(@Validated @RequestBody CreateCategoryRequest request) {
-        return ResponseEntity.ok(new ApiResponse<>(categoryService.save(request)));
+    public ResponseEntity<Void> save(@Validated @RequestBody CreateCategoryRequest request) {
+        categoryFacade.create(request);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

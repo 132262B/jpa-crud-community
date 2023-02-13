@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 
 @Setter
 @Getter
-public class SaveContentRequest {
+public class WriteContentRequest {
 
     @NotBlank
     @Length(max = 100)

@@ -20,14 +20,11 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    @Value("#{message['message.member.success.account']}")
-    private String MESSAGE_SUCCESS_ACCOUNT;
-
     @Value("#{message['message.member.logout']}")
     private String MESSAGE_LOGOUT;
 
     @Transactional
-    public DefaultResultResponse save(CreateAccountRequest request) {
+    public Long create(CreateAccountRequest request) {
         Member member = Member.builder()
                 .email(request.getEmail())
                 .password(request.getPassword())
@@ -36,25 +33,23 @@ public class MemberService {
                 .build();
 
         try {
-            memberRepository.save(member);
+            return memberRepository.save(member).getId();
         } catch (Exception e) {
             throw new IllegalArgumentException("이미 존재하는 이메일이 존재합니다.");
         }
-
-        return new DefaultResultResponse(MESSAGE_SUCCESS_ACCOUNT, true);
     }
 
     public MemberInfo login(LoginRequest request) {
         Member member = memberRepository.findByEmailAndPassword(request.getEmail(), request.getPassword());
-        MemberInfo memberInfo = new MemberInfo(member);
-
-        SessionUtil.setMemberInfoAttribute(memberInfo);
-
-        return memberInfo;
+        return new MemberInfo(member);
     }
 
-    public DefaultResultResponse logout() {
+    public void logout() {
         SessionUtil.invalidate();
-        return new DefaultResultResponse(MESSAGE_LOGOUT, true);
+    }
+
+    public Member findMember(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new NullPointerException("해당 사용자는 존재하지 않습니다."));
     }
 }

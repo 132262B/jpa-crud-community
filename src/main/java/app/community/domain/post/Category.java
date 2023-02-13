@@ -9,6 +9,7 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 카테고리 엔티티
@@ -48,17 +49,14 @@ public class Category extends BaseTimeAndByEntity {
 
     private Integer level;
 
-    public Category(String name) {
-        this.name = name;
-        this.level = 1;
-    }
+    public static Category createCategory(String categoryName, Category parentCategory) {
+        if(Objects.isNull(parentCategory)) {
+            return Category.builder().name(categoryName).level(1).parent(null).build();
+        } else {
+            if (parentCategory.getLevel() != 1)
+                throw new IllegalArgumentException("서브 카테고리에 서브 카테고리를 등록할 수 없습니다.");
 
-    public Category(String name, Category parentCategory) {
-        if (parentCategory.getLevel() != 1)
-            throw new IllegalArgumentException("서브 카테고리에 서브 카테고리를 등록할 수 없습니다.");
-
-        this.name = name;
-        this.parent = parentCategory;
-        this.level = 2;
+            return Category.builder().name(categoryName).level(2).parent(parentCategory).build();
+        }
     }
 }

@@ -6,8 +6,9 @@ import app.community.api.member.dto.request.CreateAccountRequest;
 import app.community.api.member.dto.request.LoginRequest;
 import app.community.api.member.service.MemberService;
 import app.community.global.model.ApiResponse;
-import app.community.global.model.dto.DefaultResultResponse;
+import app.community.global.utils.SessionUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,18 +22,22 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<DefaultResultResponse>> save(@Validated @RequestBody CreateAccountRequest request) {
-        return ResponseEntity.ok(new ApiResponse<>(memberService.save(request)));
+    public ResponseEntity<Void> create(@Validated @RequestBody CreateAccountRequest request) {
+        memberService.create(request);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<MemberInfo>> login(@Validated @RequestBody LoginRequest request) {
-        return ResponseEntity.ok(new ApiResponse<>(memberService.login(request)));
+        MemberInfo memberInfo = memberService.login(request);
+        SessionUtil.setMemberInfoAttribute(memberInfo);
+        return ResponseEntity.ok(new ApiResponse<>(memberInfo));
     }
 
     @GetMapping("/logout")
-    public ResponseEntity<ApiResponse<DefaultResultResponse>> logout() {
-        return ResponseEntity.ok(new ApiResponse<>(memberService.logout()));
+    public ResponseEntity<Void> logout() {
+        memberService.logout();
+        return ResponseEntity.noContent().build();
     }
 
 
