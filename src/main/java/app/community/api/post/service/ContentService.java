@@ -28,4 +28,9 @@ public class ContentService {
 
         return contentRepository.save(content);
     }
+
+    public Content findContent(Long id) {
+        return contentRepository.findById(id)
+                .orElseThrow(() -> new NullPointerException("등록된 게시물이 존재하지 않습니다."));
+    }
 }

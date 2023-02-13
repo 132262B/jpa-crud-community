@@ -47,16 +47,21 @@ public class Category extends BaseTimeAndByEntity {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<Category> child = new ArrayList<>();
 
+    @Column(nullable = false)
     private Integer level;
 
     public static Category createCategory(String categoryName, Category parentCategory) {
-        if(Objects.isNull(parentCategory)) {
-            return Category.builder().name(categoryName).level(1).parent(null).build();
-        } else {
-            if (parentCategory.getLevel() != 1)
+        int level = 1;
+        if (!Objects.isNull(parentCategory)) {
+            if(parentCategory.getLevel() != 1)
                 throw new IllegalArgumentException("서브 카테고리에 서브 카테고리를 등록할 수 없습니다.");
-
-            return Category.builder().name(categoryName).level(2).parent(parentCategory).build();
+            level = 2;
         }
+
+        return Category.builder()
+                .name(categoryName)
+                .level(level)
+                .parent(parentCategory)
+                .build();
     }
 }

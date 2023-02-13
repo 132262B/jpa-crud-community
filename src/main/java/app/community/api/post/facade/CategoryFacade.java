@@ -18,11 +18,9 @@ public class CategoryFacade {
     @Transactional
     public Long create(CreateCategoryRequest request) {
         Category parentCategory = null;
-        if (request.getParentId() != null) {
-                parentCategory = categoryService.findCategory(request.getParentId());
-        }
+        if (request.getParentId() != null)
+            parentCategory = categoryService.findCategory(request.getParentId());
 
-        Category category = Category.createCategory(request.getName(), parentCategory);
-        return categoryService.create(category).getId();
+        return categoryService.create(request.getName(), parentCategory).getId();
     }
 }

@@ -14,7 +14,8 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Transactional
-    public Category create(Category category) {
+    public Category create(String categoryName, Category parentCategory) {
+        Category category = Category.createCategory(categoryName, parentCategory);
         return categoryRepository.save(category);
     }
 

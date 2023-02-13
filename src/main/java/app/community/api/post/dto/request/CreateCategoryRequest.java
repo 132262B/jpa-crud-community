@@ -15,7 +15,6 @@ public class CreateCategoryRequest {
     @Length(max = 30)
     private String name;
 
-    @NotBlank
     private Long parentId;
 
 }
