@@ -37,6 +37,7 @@ public class Category extends BaseTimeAndByEntity {
     @ColumnDefault("'Y'")
     private String status;
 
+    @Builder.Default
     @OneToMany(mappedBy = "category")
     private List<Content> content = new ArrayList<>();
 
@@ -44,6 +45,7 @@ public class Category extends BaseTimeAndByEntity {
     @JoinColumn(name = "parent")
     private Category parent;
 
+    @Builder.Default
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<Category> child = new ArrayList<>();
 

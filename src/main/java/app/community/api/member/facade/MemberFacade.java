@@ -28,12 +28,9 @@ public class MemberFacade {
                 .role(Role.USER)
                 .build();
 
-        try {
-            return memberService.create(member).getId();
-        } catch (Exception e) {
-            throw new IllegalArgumentException("이미 존재하는 이메일이 존재합니다.");
-        }
+        return memberService.create(member).getId();
     }
+
     @Transactional
     public Long modify(ModifyInfoRequest request, Long memberId) {
         Member member = memberService.findMember(memberId);
