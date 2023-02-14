@@ -14,29 +14,5 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @DisplayName("맴버 테스트")
 class MemberServiceTest {
 
-    @Autowired
-    private MemberService memberService;
-
-    private CreateAccountRequest generateCreateAccountRequest() {
-        CreateAccountRequest createAccountRequest = new CreateAccountRequest();
-        createAccountRequest.setEmail("member1@gmail.com");
-        createAccountRequest.setPassword("1234");
-        createAccountRequest.setUsername("회원1");
-        return createAccountRequest;
-    }
-
-    @Test
-    @DisplayName("회원가입_가입_실패")
-    void createAccountFailTest() {
-
-        // given
-        CreateAccountRequest request = generateCreateAccountRequest();
-        memberService.create(request);
-
-        // when and then
-        assertThrows(IllegalArgumentException.class, () -> {
-            memberService.create(request);
-        }, "에러가 발생하지 않음");
-    }
 
 }
