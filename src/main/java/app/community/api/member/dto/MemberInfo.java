@@ -17,12 +17,10 @@ public class MemberInfo {
 
     private Role role;
 
-    public static MemberInfo createMemberInfo(Member member) {
-        MemberInfo memberInfo = new MemberInfo();
-        memberInfo.setId(member.getId());
-        memberInfo.setEmail(member.getEmail());
-        memberInfo.setUsername(member.getUsername());
-        memberInfo.setRole(member.getRole());
-        return memberInfo;
+    public MemberInfo (Member member) {
+        this.id = member.getId();
+        this.email = member.getEmail();
+        this.username = member.getUsername();
+        this.role = member.getRole();
     }
 }

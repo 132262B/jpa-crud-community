@@ -32,4 +32,10 @@ public class MemberService {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new NullPointerException("해당 사용자는 존재하지 않습니다."));
     }
+
+    @Transactional
+    public Member modify(Member member, String username) {
+        member.changeUsername(username);
+        return member;
+    }
 }
