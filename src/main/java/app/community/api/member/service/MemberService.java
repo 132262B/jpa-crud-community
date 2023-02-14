@@ -1,17 +1,13 @@
 package app.community.api.member.service;
 
-import app.community.api.member.dto.MemberInfo;
-import app.community.api.member.dto.request.CreateAccountRequest;
-import app.community.api.member.dto.request.LoginRequest;
 import app.community.api.member.repository.MemberRepository;
 import app.community.domain.member.Member;
-import app.community.global.enumerated.Role;
-import app.community.global.model.dto.DefaultResultResponse;
 import app.community.global.utils.SessionUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 @Service
 @Transactional(readOnly = true)
@@ -20,28 +16,21 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    @Value("#{message['message.member.logout']}")
-    private String MESSAGE_LOGOUT;
-
     @Transactional
-    public Long create(CreateAccountRequest request) {
-        Member member = Member.builder()
-                .email(request.getEmail())
-                .password(request.getPassword())
-                .username(request.getUsername())
-                .role(Role.USER)
-                .build();
-
+    public Member create(Member member) {
         try {
-            return memberRepository.save(member).getId();
+            return memberRepository.save(member);
         } catch (Exception e) {
             throw new IllegalArgumentException("이미 존재하는 이메일이 존재합니다.");
         }
     }
 
-    public MemberInfo login(LoginRequest request) {
-        Member member = memberRepository.findByEmailAndPassword(request.getEmail(), request.getPassword());
-        return new MemberInfo(member);
+    public Member login(String email, String password) {
+        Member member = memberRepository.findByEmailAndPassword(email, password);
+        if(Objects.isNull(member))
+            throw new NullPointerException("아이디 또는 비밀번호가 일치하지 않습니다.");
+
+        return member;
     }
 
     public void logout() {
@@ -51,5 +40,11 @@ public class MemberService {
     public Member findMember(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new NullPointerException("해당 사용자는 존재하지 않습니다."));
+    }
+
+    @Transactional
+    public Member modify(Member member, String username) {
+        member.changeUsername(username);
+        return member;
     }
 }

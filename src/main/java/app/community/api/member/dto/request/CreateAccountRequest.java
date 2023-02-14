@@ -1,6 +1,5 @@
 package app.community.api.member.dto.request;
 
-import app.community.domain.member.Member;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -24,11 +23,4 @@ public class CreateAccountRequest {
     @Length(max = 30)
     private String username;
 
-    public Member toEntity() {
-        return Member.builder()
-                .email(this.email)
-                .password(this.password)
-                .username(this.username)
-                .build();
-    }
 }

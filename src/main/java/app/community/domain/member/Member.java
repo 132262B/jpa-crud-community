@@ -48,9 +48,11 @@ public class Member extends BaseTimeEntity {
     @Column(length = 1, nullable = false)
     private String status;
 
+    @Builder.Default
     @OneToMany(mappedBy = "content")
     private List<Content> contents = new ArrayList<>();
 
-
-
+    public void changeUsername(String username) {
+        this.username = username;
+    }
 }

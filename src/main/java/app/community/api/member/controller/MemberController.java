@@ -4,6 +4,9 @@ package app.community.api.member.controller;
 import app.community.api.member.dto.MemberInfo;
 import app.community.api.member.dto.request.CreateAccountRequest;
 import app.community.api.member.dto.request.LoginRequest;
+import app.community.api.member.dto.request.ModifyInfoRequest;
+import app.community.api.member.dto.response.ShowMemberResponse;
+import app.community.api.member.facade.MemberFacade;
 import app.community.api.member.service.MemberService;
 import app.community.global.model.ApiResponse;
 import app.community.global.utils.SessionUtil;
@@ -21,15 +24,30 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    private final MemberFacade memberFacade;
+
     @PostMapping
     public ResponseEntity<Void> create(@Validated @RequestBody CreateAccountRequest request) {
-        memberService.create(request);
+        memberFacade.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<ShowMemberResponse>> show() {
+        Long memberId = SessionUtil.getMemberInfoAttribute().getId();
+        return ResponseEntity.ok(new ApiResponse<>(memberFacade.show(memberId)));
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> modify(@Validated @RequestBody ModifyInfoRequest request) {
+        Long memberId = SessionUtil.getMemberInfoAttribute().getId();
+        memberFacade.modify(request, memberId);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<MemberInfo>> login(@Validated @RequestBody LoginRequest request) {
-        MemberInfo memberInfo = memberService.login(request);
+        MemberInfo memberInfo = memberFacade.login(request);
         SessionUtil.setMemberInfoAttribute(memberInfo);
         return ResponseEntity.ok(new ApiResponse<>(memberInfo));
     }

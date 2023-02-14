@@ -17,7 +17,7 @@ public class MemberInfo {
 
     private Role role;
 
-    public MemberInfo(Member member) {
+    public MemberInfo (Member member) {
         this.id = member.getId();
         this.email = member.getEmail();
         this.username = member.getUsername();

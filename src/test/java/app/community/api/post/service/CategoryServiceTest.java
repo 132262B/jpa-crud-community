@@ -42,4 +42,14 @@ class CategoryServiceTest {
         return createCategoryRequest;
     }
 
+//    @BeforeEach
+//    public void beforeEach() {
+//        Category parentCategory = new Category("before 메인카테고리");
+//        categoryRepository.save(parentCategory);
+//        Category childCategory = new Category("before 서브카테고리", parentCategory);
+//        categoryRepository.save(childCategory);
+//
+//    }
+
+
 }
