@@ -3,11 +3,10 @@ package app.community.domain.post;
 import app.community.domain.member.Member;
 import app.community.global.jpa.auditing.BaseTimeEntity;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.util.List;
 
 /**
@@ -18,8 +17,9 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Entity
-@Where(clause = "status = 'Y'")
 @DynamicInsert
+@Where(clause = "status = 'Y'")
+@SQLDelete(sql = "UPDATE content SET status = 'N' WHERE content_id = ?")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Content extends BaseTimeEntity {
 

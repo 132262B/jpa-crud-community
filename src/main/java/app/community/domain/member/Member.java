@@ -1,5 +1,6 @@
 package app.community.domain.member;
 
+import app.community.domain.post.Comment;
 import app.community.domain.post.Content;
 import app.community.global.enumerated.Role;
 import app.community.global.jpa.auditing.BaseTimeEntity;
@@ -51,8 +52,12 @@ public class Member extends BaseTimeEntity {
     private String status;
 
     @Builder.Default
-    @OneToMany(mappedBy = "content")
+    @OneToMany(mappedBy = "member")
     private List<Content> contents = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "member")
+    private List<Comment> comments = new ArrayList<>();
 
     public void changeUsername(String username) {
         this.username = username;

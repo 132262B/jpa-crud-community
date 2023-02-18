@@ -6,11 +6,18 @@ import app.community.api.member.dto.request.LoginRequest;
 import app.community.api.member.dto.request.ModifyInfoRequest;
 import app.community.api.member.dto.response.ShowMemberResponse;
 import app.community.api.member.service.MemberService;
+import app.community.api.post.service.CommentService;
+import app.community.api.post.service.ContentService;
 import app.community.domain.member.Member;
+import app.community.domain.post.Comment;
+import app.community.domain.post.Content;
 import app.community.global.enumerated.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -18,6 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberFacade {
 
     private final MemberService memberService;
+    private final ContentService contentService;
+    private final CommentService commentService;
+
 
     @Transactional
     public Long create(CreateAccountRequest request) {
@@ -49,7 +59,19 @@ public class MemberFacade {
 
     @Transactional
     public void delete(Long memberId) {
-        Long id = memberService.findMember(memberId).getId();
-        memberService.deleteMember(id);
+        Member member = memberService.findMember(memberId);
+
+        List<Long> commentIds = member.getComments().stream()
+                .map(Comment::getId)
+                .collect(Collectors.toList());
+        commentService.deleteAllComment(commentIds);
+
+        List<Long> contentIds = member.getContents().stream()
+                .map(Content::getId)
+                .collect(Collectors.toList());
+        contentService.deleteAllContent(contentIds);
+
+        memberService.deleteMember(member.getId());
+
     }
 }

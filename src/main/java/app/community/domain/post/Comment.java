@@ -3,11 +3,11 @@ package app.community.domain.post;
 import app.community.domain.member.Member;
 import app.community.global.jpa.auditing.BaseTimeEntity;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -23,6 +23,7 @@ import java.util.Objects;
 @Entity
 @DynamicInsert
 @Where(clause = "status = 'Y'")
+@SQLDelete(sql = "UPDATE comment SET status = 'N' WHERE comment_id = ?")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment extends BaseTimeEntity {
 

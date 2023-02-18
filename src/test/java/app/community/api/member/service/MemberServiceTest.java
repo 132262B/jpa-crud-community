@@ -136,9 +136,6 @@ class MemberServiceTest {
         Member member = new TestMemberBuilder(TEST_EMAIL).build();
         Long id = memberService.create(member).getId();
 
-        em.flush();
-        em.clear();
-
         // when
         memberService.deleteMember(id);
 

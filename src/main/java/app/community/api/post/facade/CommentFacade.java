@@ -5,7 +5,6 @@ import app.community.api.post.dto.request.WriteCommentRequest;
 import app.community.api.post.service.CommentService;
 import app.community.api.post.service.ContentService;
 import app.community.domain.member.Member;
-import app.community.domain.post.Category;
 import app.community.domain.post.Comment;
 import app.community.domain.post.Content;
 import lombok.RequiredArgsConstructor;
