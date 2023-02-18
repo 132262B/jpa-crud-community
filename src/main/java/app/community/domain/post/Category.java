@@ -54,7 +54,7 @@ public class Category extends BaseTimeAndByEntity {
 
     public static Category createCategory(String categoryName, Category parentCategory) {
         int level = 1;
-        if (!Objects.isNull(parentCategory)) {
+        if (Objects.nonNull(parentCategory)) {
             if(parentCategory.getLevel() != 1)
                 throw new IllegalArgumentException("서브 카테고리에 서브 카테고리를 등록할 수 없습니다.");
             level = 2;

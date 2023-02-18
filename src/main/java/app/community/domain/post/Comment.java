@@ -59,7 +59,7 @@ public class Comment extends BaseTimeEntity {
 
     public static Comment createComment(String commentContent, Content content, Comment parentComment, Member member) {
         int level = 1;
-        if (!Objects.isNull(parentComment)) {
+        if (Objects.nonNull(parentComment)) {
             if (parentComment.getLevel() != 1)
                 throw new IllegalArgumentException("답글에 답글을 등록할 수 없습니다.");
             level = 2;
