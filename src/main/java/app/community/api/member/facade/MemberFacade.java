@@ -47,4 +47,9 @@ public class MemberFacade {
         return new ShowMemberResponse(member);
     }
 
+    @Transactional
+    public void delete(Long memberId) {
+        Long id = memberService.findMember(memberId).getId();
+        memberService.deleteMember(id);
+    }
 }

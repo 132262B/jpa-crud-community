@@ -45,6 +45,14 @@ public class MemberController {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping
+    public ResponseEntity<Void> delete() {
+        Long memberId = SessionUtil.getMemberInfoAttribute().getId();
+        memberFacade.delete(memberId);
+        memberService.logout();
+        return ResponseEntity.noContent().build();
+    }
+
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<MemberInfo>> login(@Validated @RequestBody LoginRequest request) {
         MemberInfo memberInfo = memberFacade.login(request);

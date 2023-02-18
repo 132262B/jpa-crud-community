@@ -47,4 +47,9 @@ public class MemberService {
         member.changeUsername(username);
         return member;
     }
+
+    @Transactional
+    public void deleteMember(Long id) {
+        memberRepository.deleteById(id);
+    }
 }

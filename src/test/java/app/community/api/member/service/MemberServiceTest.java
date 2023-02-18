@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -20,6 +22,9 @@ class MemberServiceTest {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private EntityManager em;
 
     private final String TEST_EMAIL = "test1@testmail.com";
 
@@ -122,6 +127,24 @@ class MemberServiceTest {
 
         // then
         assertThat(loginMember.getUsername()).isEqualTo(modifyName);
+    }
+
+    @DisplayName("회원탈퇴_성공")
+    @Test
+    void deleteTest() {
+        // given
+        Member member = new TestMemberBuilder(TEST_EMAIL).build();
+        Long id = memberService.create(member).getId();
+
+        em.flush();
+        em.clear();
+
+        // when
+        memberService.deleteMember(id);
+
+        // then
+        assertThrows(NullPointerException.class,
+                () -> memberService.findMember(id), "존재하지 않는 회원");
     }
 
 }

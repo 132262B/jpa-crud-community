@@ -6,6 +6,7 @@ import app.community.global.jpa.auditing.BaseTimeEntity;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -23,6 +24,7 @@ import java.util.List;
 @AllArgsConstructor
 @DynamicInsert
 @Where(clause = "status = 'Y'")
+@SQLDelete(sql = "UPDATE member SET status = 'N' WHERE member_id = ?")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
 
