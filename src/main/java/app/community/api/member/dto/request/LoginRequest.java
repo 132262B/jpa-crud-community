@@ -1,6 +1,5 @@
 package app.community.api.member.dto.request;
 
-import app.community.domain.member.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

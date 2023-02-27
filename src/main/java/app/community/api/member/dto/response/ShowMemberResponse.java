@@ -1,6 +1,6 @@
 package app.community.api.member.dto.response;
 
-import app.community.domain.member.Member;
+import app.community.domain.member.entity.Member;
 import app.community.global.enumerated.Role;
 import lombok.Getter;
 import lombok.Setter;

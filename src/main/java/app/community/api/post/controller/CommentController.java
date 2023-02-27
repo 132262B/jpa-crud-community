@@ -1,7 +1,7 @@
 package app.community.api.post.controller;
 
 import app.community.api.post.dto.request.WriteCommentRequest;
-import app.community.api.post.facade.CommentFacade;
+import app.community.domain.post.facade.CommentFacade;
 import app.community.global.utils.SessionUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

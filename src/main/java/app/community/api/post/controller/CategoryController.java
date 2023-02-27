@@ -2,7 +2,7 @@ package app.community.api.post.controller;
 
 import app.community.api.post.dto.request.CreateCategoryRequest;
 import app.community.api.post.dto.response.CategoryResponse;
-import app.community.api.post.facade.CategoryFacade;
+import app.community.domain.post.facade.CategoryFacade;
 import app.community.global.model.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
