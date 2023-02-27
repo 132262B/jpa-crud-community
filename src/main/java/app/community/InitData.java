@@ -1,6 +1,6 @@
 package app.community;
 
-import app.community.domain.post.Category;
+import app.community.domain.post.entity.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

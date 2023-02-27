@@ -1,7 +1,7 @@
 package app.community.api.post.controller;
 
 import app.community.api.post.dto.request.WriteContentRequest;
-import app.community.api.post.facade.ContentFacade;
+import app.community.domain.post.facade.ContentFacade;
 import app.community.global.model.ApiResponse;
 import app.community.global.utils.SessionUtil;
 import lombok.RequiredArgsConstructor;
