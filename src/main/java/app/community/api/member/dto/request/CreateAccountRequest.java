@@ -16,11 +16,16 @@ public class CreateAccountRequest {
     private String email;
 
     @NotBlank
-    @Length(max = 30)
+    @Length(max = 64)
     private String password;
 
     @NotBlank
     @Length(max = 30)
     private String username;
 
+    public CreateAccountRequest(String email, String password, String username) {
+        this.email = email;
+        this.password = password;
+        this.username = username;
+    }
 }

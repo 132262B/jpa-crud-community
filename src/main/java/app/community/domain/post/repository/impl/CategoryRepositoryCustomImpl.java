@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static app.community.domain.post.QCategory.category;
+import static app.community.domain.post.entity.QCategory.category;
 
 @Repository
 @RequiredArgsConstructor

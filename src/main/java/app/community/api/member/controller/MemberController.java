@@ -16,11 +16,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import static app.community.api.member.controller.MemberController.MEMBER_MAPPING;
 
-@RequestMapping("/api/member")
+
+@RequestMapping(MEMBER_MAPPING)
 @RequiredArgsConstructor
 @RestController
 public class MemberController {
+
+    public final static String MEMBER_MAPPING = "/api/member";
 
     private final MemberService memberService;
 

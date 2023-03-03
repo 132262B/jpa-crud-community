@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static app.community.domain.post.QComment.*;
+import static app.community.domain.post.entity.QComment.comment;
+
 
 @Repository
 @RequiredArgsConstructor

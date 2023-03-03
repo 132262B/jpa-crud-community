@@ -53,4 +53,12 @@ public class Content extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    public static Content writeContent(Member member, Category category, String title, String content) {
+        return Content.builder()
+                .member(member)
+                .category(category)
+                .title(title)
+                .content(content)
+                .build();
+    }
 }

@@ -2,6 +2,7 @@ package app.community.domain.member.entity;
 
 import app.community.domain.post.entity.Comment;
 import app.community.domain.post.entity.Content;
+import app.community.domain.post.service.ContentService;
 import app.community.global.enumerated.Role;
 import app.community.global.jpa.auditing.BaseTimeEntity;
 import lombok.*;
@@ -24,6 +25,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @DynamicInsert
+@ToString
 @Where(clause = "status = 'Y'")
 @SQLDelete(sql = "UPDATE member SET status = 'N' WHERE member_id = ?")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -51,15 +53,20 @@ public class Member extends BaseTimeEntity {
     @Column(length = 1, nullable = false)
     private String status;
 
+    @ToString.Exclude
     @Builder.Default
     @OneToMany(mappedBy = "member")
     private List<Content> contents = new ArrayList<>();
 
+    @ToString.Exclude
     @Builder.Default
     @OneToMany(mappedBy = "member")
     private List<Comment> comments = new ArrayList<>();
 
+
+
     public void changeUsername(String username) {
         this.username = username;
     }
+
 }

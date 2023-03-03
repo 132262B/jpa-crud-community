@@ -21,13 +21,7 @@ public class ContentService {
 
     @Transactional
     public Content write(Member member, Category category, WriteContentRequest request) {
-        Content content = Content.builder()
-                .title(request.getTitle())
-                .content(request.getContent())
-                .category(category)
-                .member(member)
-                .build();
-
+        Content content = Content.writeContent(member, category, request.getTitle(), request.getContent());
         return contentRepository.save(content);
     }
 
